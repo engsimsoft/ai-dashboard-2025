@@ -1,37 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Dashboard 2025
 
-## Getting Started
+Комплексный анализ рынка искусственного интеллекта, сравнения ведущих AI-инструментов и актуальные новости индустрии в одном месте.
 
-First, run the development server:
+## 🌐 Живой сайт
+**[https://ai-dashboard-2025.vercel.app/](https://ai-dashboard-2025.vercel.app/)**
 
+## ✨ Возможности
+
+- 📊 **Анализ рынка ИИ** - актуальные данные и тренды
+- 🔍 **Сравнения AI-инструментов** - детальные обзоры популярных платформ
+- 📰 **Лента новостей** - последние события в мире ИИ
+- 📈 **Интерактивные графики** - визуализация роста рынка
+- 🎯 **Фильтрация контента** - по категориям и темам
+
+## 🛠️ Технологии
+
+- **Frontend:** Next.js 14, React 18, TypeScript
+- **Стилизация:** Tailwind CSS, Shadcn/ui
+- **Графики:** Recharts
+- **Иконки:** Lucide React
+- **Деплой:** Vercel
+- **Автоматизация:** Custom deploy scripts
+
+## 🚀 Быстрый старт
+
+### Локальная разработка:
 ```bash
+# Установка зависимостей
+npm install
+
+# Запуск в режиме разработки
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Открыть http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Деплой на Vercel:
+```bash
+# Автоматическая подготовка
+node docs/deploy/deploy-helper.js prepare
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Или скажи Cursor агенту:
+"Подготовь проект к деплою на Vercel"
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📚 Документация
 
-## Learn More
+- **[docs/README.md](docs/README.md)** - Полная документация
+- **[docs/deploy/](docs/deploy/)** - Автоматизация деплоя
+- **[docs/tech-analysis-and-hosting.md](docs/tech-analysis-and-hosting.md)** - Технический анализ
 
-To learn more about Next.js, take a look at the following resources:
+## 🎯 Структура проекта
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+├── app/                    # Next.js App Router
+│   ├── components/         # Компоненты страниц
+│   ├── data/              # Статические данные
+│   └── globals.css        # Глобальные стили
+├── components/            # Переиспользуемые компоненты
+├── docs/                  # Документация
+│   └── deploy/            # Автоматизация деплоя
+└── lib/                   # Утилиты
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🔧 Автоматизация деплоя
 
-## Deploy on Vercel
+Проект включает полную автоматизацию деплоя:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Скрипты подготовки** - автоматическая настройка конфигурации
+- **Cursor Agent правила** - голосовые команды для деплоя
+- **Исправление ошибок** - автоматическое решение типичных проблем
+- **Принудительный редеплой** - обход кеширования Vercel
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# dashboard-ai-3
+### Команды для Cursor агента:
+- *"Подготовь проект к деплою на Vercel"*
+- *"Исправь ошибки деплоя"*
+- *"Форсируй редеплой"*
+
+## 📈 Результат
+
+✅ **Живой сайт:** [https://ai-dashboard-2025.vercel.app/](https://ai-dashboard-2025.vercel.app/)  
+✅ **Автоматические деплои** при push в GitHub  
+✅ **HTTPS сертификат** и глобальный CDN  
+✅ **Мониторинг** и аналитика Vercel  
+
+---
+
+*Создано с использованием современных технологий и лучших практик разработки*

@@ -1,5 +1,10 @@
 # 📚 Документация AI Dashboard
 
+## 🌐 Живой сайт
+**[https://ai-dashboard-2025.vercel.app/](https://ai-dashboard-2025.vercel.app/)** - Рабочая версия AI Dashboard
+
+---
+
 ## 📁 Структура документации
 
 ### 🚀 Деплой и автоматизация
