@@ -1,0 +1,126 @@
+# Cursor Agent Rules для быстрого деплоя
+
+## Команды для быстрого деплоя
+
+Когда пользователь говорит:
+
+### "Подготовь к деплою" или "Prepare for deploy"
+1. Проверить package.json (scripts: dev, build, start, lint)
+2. Добавить в next.config.js: `eslint: { ignoreDuringBuilds: true }`
+3. Обновить .eslintrc.json с правилами:
+   ```json
+   {
+     "extends": ["next/core-web-vitals", "next/typescript"],
+     "rules": {
+       "react/no-unescaped-entities": "off",
+       "@typescript-eslint/no-unused-vars": "warn"
+     }
+   }
+   ```
+4. Создать .env.example
+5. Проверить .gitignore
+
+### "Исправь ошибки деплоя" или "Fix deploy errors"
+1. Отключить ESLint: `eslint: { ignoreDuringBuilds: true }`
+2. Если нужно, отключить TypeScript: `typescript: { ignoreBuildErrors: true }`
+3. Исправить импорты и зависимости
+4. Коммит и push
+
+### "Форсируй редеплой" или "Force redeploy"
+```bash
+git commit --allow-empty -m "Force redeploy"
+git push
+```
+
+### "Создай GitHub репо" или "Setup GitHub"
+```bash
+git init
+git add .
+git commit -m "Initial commit: ready for deployment"
+git branch -M main
+git remote add origin [URL]
+git push -u origin main
+```
+
+## Автоматические исправления
+
+### При ошибках ESLint в деплое:
+- ВСЕГДА добавлять `eslint: { ignoreDuringBuilds: true }` в next.config.js
+- ВСЕГДА отключать `react/no-unescaped-entities`
+
+### При ошибках TypeScript:
+- Добавлять `typescript: { ignoreBuildErrors: true }` если критично
+
+### При проблемах с кешированием Vercel:
+1. Предложить удалить проект и создать заново
+2. Или создать новую ветку production
+3. Или принудительный push
+
+## Шаблоны конфигураций
+
+### next.config.js для деплоя:
+```js
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: false, // true если нужно
+  }
+};
+
+export default nextConfig;
+```
+
+### .eslintrc.json для деплоя:
+```json
+{
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "react/no-unescaped-entities": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@next/next/no-img-element": "off"
+  }
+}
+```
+
+### vercel.json:
+```json
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs"
+}
+```
+
+## Быстрые команды
+
+- `node deploy-helper.js prepare` - подготовка к деплою
+- `node deploy-helper.js fix` - исправление конфигурации
+- `node deploy-helper.js force` - принудительный редеплой
+- `node deploy-helper.js git <url>` - настройка Git
+
+## Чеклист перед деплоем
+- [ ] package.json с правильными scripts
+- [ ] next.config.js с ignoreDuringBuilds
+- [ ] .eslintrc.json с мягкими правилами
+- [ ] .gitignore настроен
+- [ ] GitHub репозиторий создан
+- [ ] Vercel проект подключен
+
+## Типичные проблемы и решения
+
+### "react/no-unescaped-entities"
+→ Добавить в .eslintrc.json: `"react/no-unescaped-entities": "off"`
+
+### "unused vars"
+→ Изменить на warning: `"@typescript-eslint/no-unused-vars": "warn"`
+
+### Vercel не подхватывает изменения
+→ Удалить проект, создать заново
+
+### Build fails
+→ `eslint: { ignoreDuringBuilds: true }` в next.config.js
+
+ВСЕГДА предлагать конкретные команды и код, а не общие инструкции! 

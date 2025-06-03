@@ -1,0 +1,145 @@
+# Cursor Agent Rules для GitHub + Vercel деплоя
+
+## Быстрый деплой workflow
+
+### 1. Подготовка проекта к деплою
+- ВСЕГДА проверить package.json на корректность scripts
+- ВСЕГДА добавить eslint: { ignoreDuringBuilds: true } в next.config.js/mjs
+- ВСЕГДА создать .env.example с базовыми переменными
+- ВСЕГДА проверить .gitignore на наличие node_modules, .env*, .next
+
+### 2. GitHub setup
+```bash
+# Инициализация и первый коммит
+git init
+git add .
+git commit -m "Initial commit: [PROJECT_NAME] ready for deployment"
+git branch -M main
+git remote add origin [GITHUB_URL]
+git push -u origin main
+```
+
+### 3. Vercel setup
+- Подключить через GitHub
+- Framework: Next.js (автоопределение)
+- Build Command: npm run build
+- Output Directory: .next
+- Install Command: npm install
+
+### 4. Исправление типичных ошибок деплоя
+
+#### ESLint ошибки:
+```js
+// next.config.js
+const nextConfig = {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true, // если нужно
+  }
+}
+```
+
+#### .eslintrc.json:
+```json
+{
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "react/no-unescaped-entities": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@next/next/no-img-element": "off"
+  }
+}
+```
+
+### 5. Команды для быстрого исправления и редеплоя
+```bash
+# Исправить и задеплоить
+git add .
+git commit -m "Fix: [ОПИСАНИЕ_ПРОБЛЕМЫ]"
+git push
+
+# Принудительный редеплой
+git commit --allow-empty -m "Force redeploy"
+git push
+```
+
+### 6. Типичные проблемы и решения
+
+#### Vercel не подхватывает изменения:
+1. Удалить проект на Vercel
+2. Создать заново
+3. Или изменить ветку: git checkout -b production && git push -u origin production
+
+#### Build ошибки:
+- Отключить ESLint: eslint.ignoreDuringBuilds = true
+- Отключить TypeScript: typescript.ignoreBuildErrors = true
+- Проверить импорты и зависимости
+
+#### Кеширование:
+- Redeploy без кеша в Vercel
+- Или git commit --allow-empty + push
+
+### 7. Шаблон для быстрого старта
+
+#### package.json scripts:
+```json
+{
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  }
+}
+```
+
+#### vercel.json:
+```json
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "functions": {
+    "app/api/**/*.ts": {
+      "runtime": "edge"
+    }
+  }
+}
+```
+
+### 8. Автоматизация через GitHub Actions (опционально)
+
+#### .github/workflows/deploy.yml:
+```yaml
+name: Deploy to Vercel
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: amondnet/vercel-action@v20
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.ORG_ID }}
+          vercel-project-id: ${{ secrets.PROJECT_ID }}
+```
+
+## Быстрые команды для агента:
+
+1. **Инициализация:** "Подготовь проект к деплою на Vercel"
+2. **Исправление:** "Исправь ошибки деплоя" 
+3. **Принудительный деплой:** "Форсируй редеплой"
+4. **Новый проект:** "Создай новый проект на Vercel из этого репо"
+
+## Чеклист перед деплоем:
+- [ ] package.json корректен
+- [ ] next.config.js с ignoreDuringBuilds
+- [ ] .gitignore настроен
+- [ ] ESLint правила смягчены
+- [ ] Нет критических TypeScript ошибок
+- [ ] GitHub репозиторий создан и код отправлен 
