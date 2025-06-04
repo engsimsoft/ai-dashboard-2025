@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { mcp_ai_news_get_ai_news } from '@/lib/mcp-client';
+import { getAINewsAction } from '@/actions/ai-news-actions';
 
 interface NewsItem {
   title: string;
@@ -52,20 +52,34 @@ export function NewsFeed() {
   const [selectedCategory, setSelectedCategory] = useState("Технологии ИИ");
   const [newsData, setNewsData] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [dataSource, setDataSource] = useState<'mcp' | 'fallback' | 'production'>('fallback');
 
   // Загрузка новостей через server action
   useEffect(() => {
     const fetchNews = async () => {
       setLoading(true);
       try {
-        // Конвертируем русскую категорию в английскую для MCP API
-        const mcpCategory = categoryMapping[selectedCategory] || "technology";
-        const result = await mcp_ai_news_get_ai_news({ category: mcpCategory, limit: 6 }) as any;
-        // API теперь возвращает массив новостей
-        setNewsData(Array.isArray(result) ? result : []);
+        const result = await getAINewsAction(selectedCategory, 6);
+        
+        if (result.isSuccess && result.data) {
+          setNewsData(result.data);
+          
+          // Определяем источник данных по сообщению
+          if (result.message.includes('Production mode')) {
+            setDataSource('production');
+          } else if (result.message.includes('MCP сервера')) {
+            setDataSource('mcp');
+          } else {
+            setDataSource('fallback');
+          }
+        } else {
+          setNewsData([]);
+          setDataSource('fallback');
+        }
       } catch (error) {
         console.error('Error fetching news:', error);
         setNewsData([]);
+        setDataSource('fallback');
       } finally {
         setLoading(false);
       }
@@ -73,6 +87,32 @@ export function NewsFeed() {
 
     fetchNews();
   }, [selectedCategory]);
+
+  // Функция для получения индикатора источника данных
+  const getDataSourceIndicator = () => {
+    switch (dataSource) {
+      case 'mcp':
+        return {
+          color: 'bg-green-500',
+          text: 'Данные через MCP',
+          icon: '🔌'
+        };
+      case 'production':
+        return {
+          color: 'bg-blue-500',
+          text: 'Проверенные новости',
+          icon: '🌐'
+        };
+      default:
+        return {
+          color: 'bg-orange-500',
+          text: 'Резервные данные',
+          icon: '📰'
+        };
+    }
+  };
+
+  const indicator = getDataSourceIndicator();
 
   if (loading) {
     return (
@@ -107,8 +147,8 @@ export function NewsFeed() {
           </p>
         </div>
         <div className="flex items-center space-x-2">
-          <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-          <span className="text-sm text-gray-500">Обновляется через MCP</span>
+          <div className={`w-3 h-3 rounded-full ${indicator.color} animate-pulse`}></div>
+          <span className="text-sm text-gray-500">{indicator.text}</span>
         </div>
       </div>
 

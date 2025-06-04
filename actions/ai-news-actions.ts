@@ -17,9 +17,23 @@ export async function getAINewsAction(
 ): Promise<ActionState<NewsItem[]>> {
   console.log(`🔍 getAINewsAction called with category: ${category}, limit: ${limit}`)
   
+  // В продакшене всегда используем fallback данные
+  if (process.env.NODE_ENV === 'production') {
+    console.log(`🌐 Production mode - using fallback data`)
+    const fallbackNews = getFallbackNews(category, limit)
+    console.log(`✅ Fallback data: ${fallbackNews.length} items for category "${category}"`)
+    
+    return {
+      isSuccess: true,
+      message: "Новости получены (Production mode)",
+      data: fallbackNews
+    }
+  }
+  
+  // В development пытаемся использовать MCP, но с fallback
   try {
     const mcpCategory = categoryMapping[category] || "all"
-    console.log(`📊 Mapped category: ${category} -> ${mcpCategory}`)
+    console.log(`📊 Development mode - trying MCP. Mapped category: ${category} -> ${mcpCategory}`)
     
     // Используем MCP функции напрямую
     const { mcp_ai_news_get_ai_news } = await import('@/lib/mcp-client')
@@ -30,6 +44,11 @@ export async function getAINewsAction(
       limit: limit
     })
     console.log(`✅ MCP returned ${newsData?.length || 0} news items:`, newsData)
+    
+    // Проверяем что MCP вернул валидные данные
+    if (!newsData || !Array.isArray(newsData) || newsData.length === 0) {
+      throw new Error('MCP returned empty or invalid data')
+    }
     
     // Преобразуем данные в нужный формат
     const formattedNews: NewsItem[] = newsData.map((item: any) => ({
@@ -48,7 +67,7 @@ export async function getAINewsAction(
       data: formattedNews
     }
   } catch (error) {
-    console.error("❌ Error fetching AI news from MCP:", error)
+    console.error("❌ MCP failed in development, using fallback:", error)
     
     // Fallback к статичным данным при ошибке MCP
     const fallbackNews = getFallbackNews(category, limit)
