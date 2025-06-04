@@ -89,6 +89,13 @@ export function Header() {
             </div>
 
             <Link 
+              href="/rag-guide" 
+              className="text-gray-700 hover:text-indigo-600 font-medium transition-colors"
+            >
+              RAG Guide
+            </Link>
+
+            <Link 
               href="/ai-coding-platforms" 
               className="text-gray-700 hover:text-green-600 font-medium transition-colors"
             >
@@ -170,6 +177,14 @@ export function Header() {
                 </Link>
               </div>
               
+              <Link 
+                href="/rag-guide" 
+                className="text-gray-700 hover:text-indigo-600 font-medium transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                RAG Guide
+              </Link>
+
               <Link 
                 href="/ai-coding-platforms" 
                 className="text-gray-700 hover:text-green-600 font-medium transition-colors"
