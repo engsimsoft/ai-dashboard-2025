@@ -94,6 +94,13 @@ export function Header() {
             >
               AI-платформы
             </Link>
+
+            <Link 
+              href="/mcp-servers" 
+              className="text-gray-700 hover:text-purple-600 font-medium transition-colors"
+            >
+              MCP-серверы
+            </Link>
             
             <Link 
               href="/dark-horses" 
@@ -169,6 +176,14 @@ export function Header() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 AI-платформы
+              </Link>
+
+              <Link 
+                href="/mcp-servers" 
+                className="text-gray-700 hover:text-purple-600 font-medium transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                MCP-серверы
               </Link>
               
               <Link 

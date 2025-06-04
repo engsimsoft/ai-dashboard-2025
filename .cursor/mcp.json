@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "ai-news": {
+      "command": "node",
+      "args": ["./mcp-servers/ai-news-server.js"],
+      "env": {}
+    },
+    "github": {
+      "command": "node",
+      "args": ["./mcp-servers/github-server.js"]
+    }
+  }
+} 

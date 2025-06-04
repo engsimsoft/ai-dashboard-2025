@@ -1,101 +1,98 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { mcp_ai_news_get_ai_news } from '@/lib/mcp-client';
 
 interface NewsItem {
-  id: number;
   title: string;
-  summary: string;
-  category: string;
-  date: string;
+  description: string;
+  url: string;
+  publishedAt: string;
   source: string;
-  readTime: string;
-  trending?: boolean;
+  category: string;
 }
 
-const newsData: NewsItem[] = [
-  {
-    id: 1,
-    title: "OpenAI представила GPT-5: революция в области ИИ",
-    summary: "Новая модель GPT-5 демонстрирует значительные улучшения в понимании контекста и генерации кода, превосходя предыдущие версии на 40%.",
-    category: "Модели ИИ",
-    date: "2025-01-15",
-    source: "OpenAI Blog",
-    readTime: "3 мин",
-    trending: true
-  },
-  {
-    id: 2,
-    title: "Google Gemini Ultra получил обновление для разработчиков",
-    summary: "Новые возможности включают улучшенную интеграцию с IDE и поддержку более 50 языков программирования.",
-    category: "Разработка",
-    date: "2025-01-14",
-    source: "Google AI",
-    readTime: "4 мин"
-  },
-  {
-    id: 3,
-    title: "Anthropic Claude 3.5 Sonnet: новые возможности для бизнеса",
-    summary: "Компания Anthropic анонсировала специальные функции для корпоративных клиентов, включая улучшенную безопасность данных.",
-    category: "Бизнес",
-    date: "2025-01-13",
-    source: "Anthropic",
-    readTime: "5 мин",
-    trending: true
-  },
-  {
-    id: 4,
-    title: "Рынок ИИ-инструментов достиг $200 млрд в 2025 году",
-    summary: "Аналитики прогнозируют дальнейший рост рынка на 35% в год благодаря внедрению ИИ в различных отраслях.",
-    category: "Рынок",
-    date: "2025-01-12",
-    source: "McKinsey",
-    readTime: "6 мин"
-  },
-  {
-    id: 5,
-    title: "Microsoft Copilot интегрируется с новыми платформами",
-    summary: "Расширение экосистемы Copilot включает поддержку популярных инструментов разработки и дизайна.",
-    category: "Интеграции",
-    date: "2025-01-11",
-    source: "Microsoft",
-    readTime: "3 мин"
-  },
-  {
-    id: 6,
-    title: "Новые стартапы в области ИИ привлекли $5 млрд инвестиций",
-    summary: "Венчурные фонды активно инвестируют в AI-стартапы, специализирующиеся на автоматизации и машинном обучении.",
-    category: "Инвестиции",
-    date: "2025-01-10",
-    source: "TechCrunch",
-    readTime: "4 мин",
-    trending: true
-  }
-];
+// Новые категории для AI Dashboard
+const categories = ["Технологии ИИ", "Модели", "Vibecoding", "LLM"];
 
-const categories = ["Все", "Модели ИИ", "Разработка", "Бизнес", "Рынок", "Интеграции", "Инвестиции"];
+// Маппинг категорий для MCP API
+const categoryMapping: Record<string, string> = {
+  "Технологии ИИ": "technology",
+  "Модели": "technology",
+  "Vibecoding": "technology",
+  "LLM": "research"
+};
 
 const getCategoryColor = (category: string) => {
   const colors: { [key: string]: string } = {
-    "Модели ИИ": "bg-blue-100 text-blue-800",
-    "Разработка": "bg-green-100 text-green-800",
-    "Бизнес": "bg-purple-100 text-purple-800",
-    "Рынок": "bg-orange-100 text-orange-800",
-    "Интеграции": "bg-indigo-100 text-indigo-800",
-    "Инвестиции": "bg-red-100 text-red-800"
+    "Технологии ИИ": "bg-blue-100 text-blue-800",
+    "Модели": "bg-purple-100 text-purple-800", 
+    "Vibecoding": "bg-green-100 text-green-800",
+    "LLM": "bg-orange-100 text-orange-800"
   };
   return colors[category] || "bg-gray-100 text-gray-800";
 };
 
+// Функция для получения времени чтения (примерная оценка)
+const getReadTime = (description: string) => {
+  const words = description.split(' ').length;
+  const minutes = Math.ceil(words / 200); // 200 слов в минуту
+  return `${minutes} мин`;
+};
+
+// Функция для определения trending новостей (последние 6 часов)
+const isTrending = (publishedAt: string) => {
+  const newsDate = new Date(publishedAt);
+  const now = new Date();
+  const hoursDiff = (now.getTime() - newsDate.getTime()) / (1000 * 60 * 60);
+  return hoursDiff <= 6;
+};
+
 export function NewsFeed() {
-  const [selectedCategory, setSelectedCategory] = useState("Все");
-  const [showAll, setShowAll] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("Технологии ИИ");
+  const [newsData, setNewsData] = useState<NewsItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const filteredNews = newsData.filter(item => 
-    selectedCategory === "Все" || item.category === selectedCategory
-  );
+  // Загрузка новостей через server action
+  useEffect(() => {
+    const fetchNews = async () => {
+      setLoading(true);
+      try {
+        // Конвертируем русскую категорию в английскую для MCP API
+        const mcpCategory = categoryMapping[selectedCategory] || "technology";
+        const result = await mcp_ai_news_get_ai_news({ category: mcpCategory, limit: 6 }) as any;
+        // API теперь возвращает массив новостей
+        setNewsData(Array.isArray(result) ? result : []);
+      } catch (error) {
+        console.error('Error fetching news:', error);
+        setNewsData([]);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const displayedNews = showAll ? filteredNews : filteredNews.slice(0, 6);
+    fetchNews();
+  }, [selectedCategory]);
+
+  if (loading) {
+    return (
+      <div className="bg-white rounded-lg shadow-lg p-6">
+        <div className="animate-pulse">
+          <div className="h-8 bg-gray-200 rounded w-1/3 mb-4"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="bg-gray-50 rounded-lg p-5">
+                <div className="h-4 bg-gray-200 rounded w-1/4 mb-3"></div>
+                <div className="h-6 bg-gray-200 rounded w-3/4 mb-2"></div>
+                <div className="h-4 bg-gray-200 rounded w-full mb-4"></div>
+                <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-6">
@@ -111,11 +108,11 @@ export function NewsFeed() {
         </div>
         <div className="flex items-center space-x-2">
           <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-          <span className="text-sm text-gray-500">Обновляется в реальном времени</span>
+          <span className="text-sm text-gray-500">Обновляется через MCP</span>
         </div>
       </div>
 
-      {/* Category Filter */}
+      {/* Category Tabs */}
       <div className="flex flex-wrap gap-2 mb-6 pb-4 border-b border-gray-200">
         {categories.map((category) => (
           <button
@@ -132,65 +129,58 @@ export function NewsFeed() {
         ))}
       </div>
 
-      {/* News Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-        {displayedNews.map((item) => (
-          <article
-            key={item.id}
-            className="group bg-gray-50 rounded-lg p-5 hover:bg-white hover:shadow-md transition-all duration-200 cursor-pointer border border-transparent hover:border-gray-200"
-          >
-            {/* Category and Trending Badge */}
-            <div className="flex items-center justify-between mb-3">
-              <span className={`px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(item.category)}`}>
-                {item.category}
-              </span>
-              {item.trending && (
-                <div className="flex items-center space-x-1">
-                  <span className="text-red-500 text-xs">🔥</span>
-                  <span className="text-xs text-red-600 font-medium">Trending</span>
-                </div>
-              )}
-            </div>
-
-            {/* Title */}
-            <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
-              {item.title}
-            </h3>
-
-            {/* Summary */}
-            <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-              {item.summary}
-            </p>
-
-            {/* Meta Information */}
-            <div className="flex items-center justify-between text-xs text-gray-500">
-              <div className="flex items-center space-x-3">
-                <span>{item.source}</span>
-                <span>•</span>
-                <span>{new Date(item.date).toLocaleDateString('ru-RU')}</span>
+      {/* News Grid - всегда показываем 6 новостей */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {newsData.map((item, index) => {
+          const trending = isTrending(item.publishedAt);
+          
+          return (
+            <article
+              key={index}
+              className="group bg-gray-50 rounded-lg p-5 hover:bg-white hover:shadow-md transition-all duration-200 cursor-pointer border border-transparent hover:border-gray-200"
+              onClick={() => window.open(item.url, '_blank')}
+            >
+              {/* Category and Trending Badge */}
+              <div className="flex items-center justify-between mb-3">
+                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(item.category)}`}>
+                  {item.category}
+                </span>
+                {trending && (
+                  <div className="flex items-center space-x-1">
+                    <span className="text-red-500 text-xs">🔥</span>
+                    <span className="text-xs text-red-600 font-medium">Trending</span>
+                  </div>
+                )}
               </div>
-              <span className="bg-gray-200 px-2 py-1 rounded">
-                {item.readTime}
-              </span>
-            </div>
-          </article>
-        ))}
+
+              {/* Title */}
+              <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
+                {item.title}
+              </h3>
+
+              {/* Description */}
+              <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                {item.description}
+              </p>
+
+              {/* Meta Information */}
+              <div className="flex items-center justify-between text-xs text-gray-500">
+                <div className="flex items-center space-x-3">
+                  <span>{item.source}</span>
+                  <span>•</span>
+                  <span>{new Date(item.publishedAt).toLocaleDateString('ru-RU')}</span>
+                </div>
+                <span className="bg-gray-200 px-2 py-1 rounded">
+                  {getReadTime(item.description)}
+                </span>
+              </div>
+            </article>
+          );
+        })}
       </div>
 
-      {/* Show More/Less Button */}
-      {filteredNews.length > 6 && (
-        <div className="text-center">
-          <button
-            onClick={() => setShowAll(!showAll)}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
-          >
-            {showAll ? 'Показать меньше' : `Показать еще ${filteredNews.length - 6} новостей`}
-          </button>
-        </div>
-      )}
-
       {/* No results message */}
-      {filteredNews.length === 0 && (
+      {newsData.length === 0 && !loading && (
         <div className="text-center py-8">
           <p className="text-gray-500">Новостей в категории "{selectedCategory}" не найдено</p>
         </div>
