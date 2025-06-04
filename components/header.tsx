@@ -76,6 +76,14 @@ export function Header() {
                     <div className="font-medium">Claude Code vs Cursor FullStack</div>
                     <div className="text-xs text-gray-500 mt-1">Детальное сравнение для веб-разработки</div>
                   </Link>
+                  <Link 
+                    href="/magic-patterns-vs-cursor"
+                    className="block px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors"
+                    onClick={() => setIsDropdownOpen(false)}
+                  >
+                    <div className="font-medium">Magic Patterns vs Cursor</div>
+                    <div className="text-xs text-gray-500 mt-1">AI прототипирование vs разработка</div>
+                  </Link>
                 </div>
               )}
             </div>
@@ -145,6 +153,13 @@ export function Header() {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Claude Code vs Cursor
+                </Link>
+                <Link 
+                  href="/magic-patterns-vs-cursor"
+                  className="block text-gray-700 hover:text-purple-600 transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Magic Patterns vs Cursor
                 </Link>
               </div>
               

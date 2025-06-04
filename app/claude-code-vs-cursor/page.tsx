@@ -132,6 +132,7 @@ export default async function ClaudeCodeVsCursorPage() {
                   <ul className="space-y-2 text-sm">
                     <li>• <strong>Модель оплаты:</strong> Pay-per-use (около $5-8 за сессию)</li>
                     <li>• <strong>Стоимость 90-минутной сессии:</strong> ~$8</li>
+                    <li>• <strong>Автономная работа:</strong> Может работать 7+ часов без вмешательства</li>
                     <li>• <strong>Подходит для:</strong> Периодического использования, экспериментов</li>
                     <li>• <strong>Риск:</strong> Может стать дорого при ежедневном использовании ($20-30/день)</li>
                   </ul>
@@ -142,6 +143,7 @@ export default async function ClaudeCodeVsCursorPage() {
                   <ul className="space-y-2 text-sm">
                     <li>• <strong>Hobby план:</strong> Бесплатно (до 2000 автодополнений)</li>
                     <li>• <strong>Pro план:</strong> $20/месяц (500 premium запросов)</li>
+                    <li>• <strong>Реальное использование:</strong> менее 50 запросов для сложных задач</li>
                     <li>• <strong>Business план:</strong> $40/пользователь/месяц</li>
                     <li>• <strong>Подходит для:</strong> Постоянной разработки</li>
                     <li>• <strong>Преимущество:</strong> Предсказуемая стоимость</li>
@@ -150,7 +152,7 @@ export default async function ClaudeCodeVsCursorPage() {
               </div>
 
               <div className="mt-6 bg-blue-100 p-4 rounded-lg text-center">
-                <strong>Вердикт по стоимости:</strong> Cursor в 2-4 раза дешевле при регулярном использовании
+                <strong>Вердикт по стоимости:</strong> Cursor в 4 раза дешевле при регулярном использовании (данные 2025)
               </div>
             </div>
 
@@ -193,6 +195,8 @@ export default async function ClaudeCodeVsCursorPage() {
                       <li>🏗️ <strong>Архитектура:</strong> Отличное понимание паттернов FullStack</li>
                       <li>🐛 <strong>Отладка:</strong> Самостоятельно исправляет ошибки</li>
                       <li>📚 <strong>Документация:</strong> Может создавать документацию "на лету"</li>
+                      <li>📝 <strong>Git интеграция:</strong> Пишет подробные и красивые commit сообщения</li>
+                      <li>🔄 <strong>Автоматизация:</strong> Автоматически коммитит и пушит изменения</li>
                     </ul>
                   </div>
 
@@ -203,6 +207,8 @@ export default async function ClaudeCodeVsCursorPage() {
                       <li>🔍 <strong>Контроль:</strong> Точная настройка контекста</li>
                       <li>🌐 <strong>Веб-поиск:</strong> Может искать актуальную документацию</li>
                       <li>🔧 <strong>Интеграция:</strong> Лучше работает с существующими проектами</li>
+                      <li>📝 <strong>Git сообщения:</strong> Генерирует только однострочные commit сообщения</li>
+                      <li>🎯 <strong>Точечные изменения:</strong> Превосходен для локальных правок</li>
                     </ul>
                   </div>
                 </div>
@@ -312,7 +318,8 @@ export default async function ClaudeCodeVsCursorPage() {
                     <h4 className="font-bold text-green-700 mb-3">Плюсы:</h4>
                     <ul className="space-y-2 text-sm text-gray-700">
                       <li>🎯 <strong>Простота:</strong> Один интерфейс - терминал</li>
-                      <li>🤝 <strong>Инкрементальные разрешения:</strong> Постепенно зарабатывает доверие</li>
+                      <li>🤝 <strong>Инкрементальные разрешения:</strong> Постепенно зарабатывает доверие ("да и больше не спрашивай")</li>
+                      <li>🤖 <strong>Высокая автономность:</strong> После настройки доверия работает самостоятельно</li>
                       <li>🚫 <strong>Без отвлечений:</strong> Нет сложного UI</li>
                       <li>💬 <strong>Естественное общение:</strong> Как разговор с коллегой</li>
                     </ul>
@@ -344,9 +351,10 @@ export default async function ClaudeCodeVsCursorPage() {
                   <div>
                     <h4 className="font-bold text-red-700 mb-3">Минусы:</h4>
                     <ul className="space-y-2 text-sm text-gray-700">
-                      <li>🤯 <strong>Сложность интерфейса:</strong> Множество кнопок и опций</li>
+                      <li>🤯 <strong>Сложность интерфейса:</strong> До 4 кнопок "Accept" одновременно</li>
                       <li>🔄 <strong>Переключение контекста:</strong> Между чатом и редактором</li>
                       <li>📱 <strong>Занимает экран:</strong> Агент занимает 1/3 экрана</li>
+                      <li>👤 <strong>Требует контроля:</strong> Ручное подтверждение каждого действия</li>
                     </ul>
                   </div>
                 </div>
@@ -367,6 +375,8 @@ export default async function ClaudeCodeVsCursorPage() {
                     <li>🏗️ <strong>Архитектурные задачи:</strong> Большие рефакторинги</li>
                     <li>💰 <strong>Нерегулярное использование:</strong> Иногда нужен AI-помощник</li>
                     <li>🎮 <strong>"Vibe coding":</strong> Хотите просто описать идею и получить результат</li>
+                    <li>🗂️ <strong>Заброшенные проекты:</strong> Проекты, к которым не прикасались месяцами</li>
+                    <li>⚠️ <strong>Исправление deprecation warnings:</strong> Обновление зависимостей</li>
                   </ul>
                 </div>
 
@@ -379,6 +389,8 @@ export default async function ClaudeCodeVsCursorPage() {
                     <li>💰 <strong>Бюджет:</strong> Нужна предсказуемая стоимость</li>
                     <li>🔧 <strong>Существующий проект:</strong> Дорабатываете имеющийся код</li>
                     <li>🎨 <strong>UI-фокус:</strong> Много работы с интерфейсами</li>
+                    <li>🔍 <strong>Точечные изменения:</strong> Небольшие правки и улучшения</li>
+                    <li>📚 <strong>Поиск документации:</strong> Нужен доступ к актуальной информации</li>
                   </ul>
                 </div>
               </div>
@@ -415,6 +427,12 @@ export default async function ClaudeCodeVsCursorPage() {
             <div className="mb-12">
               <h2 className="text-3xl font-bold mb-8 text-center">📊 Итоговая оценка</h2>
               
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6 text-center">
+                <p className="text-sm text-yellow-800">
+                  <strong>Обновлено:</strong> Данные основаны на исследованиях 2025 года и реальном опыте разработчиков
+                </p>
+              </div>
+              
               <div className="overflow-x-auto">
                 <table className="w-full bg-white border border-gray-200 rounded-lg shadow">
                   <thead className="bg-gray-50">
@@ -437,6 +455,12 @@ export default async function ClaudeCodeVsCursorPage() {
                       <td className="px-4 py-3 text-center"><span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">6/10</span></td>
                       <td className="px-4 py-3 text-center"><span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">9/10</span></td>
                       <td className="px-4 py-3 text-center font-bold text-blue-600">Cursor</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-3 font-medium">Автономность работы</td>
+                      <td className="px-4 py-3 text-center"><span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">9/10</span></td>
+                      <td className="px-4 py-3 text-center"><span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">6/10</span></td>
+                      <td className="px-4 py-3 text-center font-bold text-green-600">Claude Code</td>
                     </tr>
                     <tr>
                       <td className="px-4 py-3 font-medium">Простота использования</td>
