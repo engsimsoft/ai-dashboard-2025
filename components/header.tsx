@@ -96,6 +96,13 @@ export function Header() {
             </Link>
 
             <Link 
+              href="/llm-guide" 
+              className="text-gray-700 hover:text-purple-600 font-medium transition-colors"
+            >
+              LLM Guide
+            </Link>
+
+            <Link 
               href="/ai-coding-platforms" 
               className="text-gray-700 hover:text-green-600 font-medium transition-colors"
             >
@@ -183,6 +190,14 @@ export function Header() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 RAG Guide
+              </Link>
+
+              <Link 
+                href="/llm-guide" 
+                className="text-gray-700 hover:text-purple-600 font-medium transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                LLM Guide
               </Link>
 
               <Link 
