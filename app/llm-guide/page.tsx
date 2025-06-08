@@ -264,7 +264,7 @@ export default async function LLMGuidePage() {
                 </div>
                 <div className="bg-gray-50 p-3 rounded">
                   <span className="font-medium text-green-700">LLM с RAG:</span>
-                  <p className="text-green-600 mt-1">"Согласно РЛС: тошнота (>10%), диарея (>10%), лактоацидоз (редко)... <em>Обязательно проконсультируйтесь с врачом</em></p>
+                  <p className="text-green-600 mt-1">"Согласно РЛС: тошнота (&gt;10%), диарея (&gt;10%), лактоацидоз (редко)... <em>Обязательно проконсультируйтесь с врачом</em>"</p>
                 </div>
               </div>
             </div>
