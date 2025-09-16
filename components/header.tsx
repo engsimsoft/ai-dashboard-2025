@@ -76,13 +76,29 @@ export function Header() {
                     <div className="font-medium">Claude Code vs Cursor FullStack</div>
                     <div className="text-xs text-gray-500 mt-1">Детальное сравнение для веб-разработки</div>
                   </Link>
-                  <Link 
+                  <Link
                     href="/magic-patterns-vs-cursor"
                     className="block px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-600 transition-colors"
                     onClick={() => setIsDropdownOpen(false)}
                   >
                     <div className="font-medium">Magic Patterns vs Cursor</div>
                     <div className="text-xs text-gray-500 mt-1">AI прототипирование vs разработка</div>
+                  </Link>
+                  <Link
+                    href="/ai-video-models"
+                    className="block px-4 py-3 text-sm text-gray-700 hover:bg-cyan-50 hover:text-cyan-600 transition-colors"
+                    onClick={() => setIsDropdownOpen(false)}
+                  >
+                    <div className="font-medium">Модели генерации видео ИИ</div>
+                    <div className="text-xs text-gray-500 mt-1">Sora, Veo, Runway ML, Pika Labs</div>
+                  </Link>
+                  <Link
+                    href="/ai-coding-models"
+                    className="block px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                    onClick={() => setIsDropdownOpen(false)}
+                  >
+                    <div className="font-medium">Модели ИИ для программирования</div>
+                    <div className="text-xs text-gray-500 mt-1">Claude, GPT-4o, DeepSeek, Codestral</div>
                   </Link>
                 </div>
               )}
@@ -175,12 +191,26 @@ export function Header() {
                 >
                   Claude Code vs Cursor
                 </Link>
-                <Link 
+                <Link
                   href="/magic-patterns-vs-cursor"
                   className="block text-gray-700 hover:text-purple-600 transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Magic Patterns vs Cursor
+                </Link>
+                <Link
+                  href="/ai-video-models"
+                  className="block text-gray-700 hover:text-cyan-600 transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Модели генерации видео ИИ
+                </Link>
+                <Link
+                  href="/ai-coding-models"
+                  className="block text-gray-700 hover:text-blue-600 transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Модели ИИ для программирования
                 </Link>
               </div>
               
